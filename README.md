@@ -1,124 +1,158 @@
-**Desafio de Aplicativos Espacias da NASA 2025**
+# 🌱 NASA Farm Navigator
 
-# Navegadores agrícolas da NASA: usando a exploração de dados da NASA na agricultura
+**RPG de Texto Educativo | NASA Space Apps Challenge 2025**
 
-A comunidade agrícola enfrenta o desafio de integrar tecnologia e dados para aprimorar práticas agrícolas
-sustentáveis. Simular atividades agrícolas essenciais, como fertilização, irrigação e manejo de gado, usando
-imagens de satélite e dados climáticos reais da NASA, pode permitir uma melhor compreensão dos
-impactos dessas variáveis na produção agrícola. Seu desafio é criar um jogo educativo envolvente que
-utilize efetivamente os conjuntos de dados abertos da NASA para simular cenários agrícolas e permitir que
-os jogadores aprendam como esses dados podem subsidiar métodos agrícolas inovadores e sustentáveis.
+Um jogo educativo que utiliza dados reais da NASA para ensinar práticas agrícolas sustentáveis através de decisões estratégicas em um RPG narrativo.
 
-## background
-
-A agricultura está no centro do suprimento global de alimentos, mas a comunidade agrícola enfrenta
-desafios sem precedentes à medida que a população mundial continua a crescer e as mudanças nos
-padrões climáticos impactam a produtividade da terra. A incorporação de métodos de conservação às
-práticas agrícolas tornou-se essencial para preservar recursos, manter a biodiversidade e garantir a
-viabilidade a longo prazo das terras agrícolas. A integração de tecnologia e análise de dados à agricultura
-pode revolucionar este setor, otimizando a produtividade das culturas, reduzindo os recursos necessários e
-minimizando o impacto ambiental.
-
-Atualmente, tecnologias avançadas como imagens de satélite e modelagem climática podem ser utilizadas
-para aprimorar a tomoda de decisões na operação e gestão de fazendas. No entanto, existe uma lacuna
-significativa de conhecimento quanto à acessibilidade e aplicação dessas ferramentas; por exemplo,
-fazendas menores podem não ter recursos para aproveitar esses métodos. Os conjuntos de dados abertos
-da NASA — que oferecem uma riqueza de informações em tempo real sobre as condições climáticas,
-umidade do solo e saúde da vegetação — podem ser usados para preencher essas lacunas. Esses conjuntos
-de dados podem ser integrados a ferramentas educacionais para aumentar o acesso à tecnolgia e a
-insights baseados em dados.
-
-Apesar da disponibilidade dessas tecnologias e dados, esforços anteriores para aplicá-los a práticas
-agrícolas muitas vezes fracassam devido a interfaces complexas e treinamento insuficiente. Um jogo
-criativo, envolvente e educativo poderia ser uma maneira inovadora de mostrar o potencial dos conjuntos
-de dados da NASA para a comunidade agrícola. Tal jogo poderia servir como uma plataforma educacional,
-concientizando sobre como os dados da NASA podem ser aplicados para enfrentar desafios agrícolas do
-mundo real. Ao simular cenários agrícolas realistas, os jogadores poderiam aprender a tomar decisões
-baseadas em dados que aprimoram práticas sustentáveis, aumentando assim a conscientização e a
-implementação da agricultura orientada por tecnologia por um público mais amplo.
-
-## objetivos
-
-Seu desafio é desenvolver um jogo envolvente e educativo que utilize efetivamente os conjuntos de dados
-abertos da NASA para ilustrar práticas agrícolas modernas de uma maneira que não apenas entretenha,
-mas também eduque os jogadores sobre a importância e a aplicação de técnicas de agricultura
-conservacionista. Seu jogo pode servir como uma ferramenta abrangente que preenche a lacuna entre
-dados científicos complexos a aplicações práticas na agricultura.
-
-Pense em como você pode criar uma interface de jogo amigável que permita aos jogadores interagir com
-dados do mundo real, como imagens de satélite e relatórios climáticos da NASA. Como seu jogo pode
-simular atividades agrícolas essencias, como fertilização, irrigação e manejo de gado, para promover a
-tomada de decisões com base em dados ambientais reais? O uso criativo de tecnologia é incentivado, e não
-se esqueça de tornar o jogo acessível a um público amplo, incluindo aqueles sem formação científica.
-
-Estude cuidadosamente os dados que você utiliza; entenda seus pontos fortes e fracos para garantir que
-seu jogo reflita as limitações reais conhecidas dos produtos de dados. Tente entender as conexões entre os
-dados que você utiliza e práticas agrícolas específicas para que seu jogo se aplique a mais do que apenas
-variáveis superficiais, como precipitação, temperatura, umidade do solo, etc.
-
-Como você enriquecerá a experiência educacional dos jogadores? Você pode incorporar elementos
-multimídia, como mapas interativos ou recursos de realidade aumentada, para enriquecer a experiência
-dos jogadores. Ao utilizar tecnologias modernas e design intuitivo, seu jogo pode inspirar os jogadores a
-compreender e implementar práticas que contribuam para o sucesso agrícola a longo prazo.
-
-Seu jogo pode capacitar os jogadores com o conhecimento e a percepção tecnológica necessários para
-influenciar práticas agrícolas do mundo real de forma positiva e responsável!
-
-### considerações potenciais
-
-Você pode (mas não é obrigado a) considerar o seguinte:
-
-**dicas de design de jogos**
-
-- Experiência do usuário: incluir uma interface clara e intuitiva pode ajudar a garantir acessibilidade para
-jogadores de todas as idades e origens.
-- Engajamento: Você consegue desenvolver narrativas ou objetivos atraentes dentro do jogo para manter
-o interesse do jogador?
-- Dicas e sugestões: considere incluir informações ou dicas que impeçam os jogadores de interpretar mal
-os dados (por exemplo, lembra da resolução de X? Você conseguiria detectar X nessa resolução?)
-
-**utilização de dados**
-
-- Precisão: Pense em como você poderia garantir a representação precisa dos conjuntos de dados da
-NASA para fornecer cenários agrícolas realistas.
-- Visualização de dados: seu jogo pode usar elementos gráficos, como mapas ou tabelas interativas, para
-simplificar dados complexos.
-
-**impacto educacional**
-
-- Transferência de conhecimento: incluir tutorias ou elementos de jogabilidade que expliquem termos e
-equações científicas pode melhorar a experiência de aprendizado dos jogadores.
-- Aplicação no mundo real: Você pode criar cenários para incluir no seu jogo que reflitam desafios
-agrícolas reais e mostrem como os dados da NASA podem informar decisões, para que os jogadores
-sejam incentivados a aplicar soluções no mundo real?
-
-**conteúdo de informação**
-
-- Além do Básico: Seu jogo pode ajudar os agricultores a entender os dados e como eles podem auxiliar
-nas decisões? Ou seja, seu jogo pode ampliar o conhecimento dos agricultores e levá-los a refletir sobre
-como os dados podem mudar a maneira como tomam decisões?
-- Entenda os dados: Familiarize-se com o que os dados *realmente* dizem — nem todos os produtos de
-umidade do solo se referem à mesma profundidade e nem todas as temperaturas estão no nível do
-solo! Algumas coisas são mais úteis do que parecem, e outras não são tão relevantes quanto você
-imagina.
-
-**criatividade e inovação**
-
-- Recursos exclusivos: considere implementar elementos multimídia, como realidade aumentada, para
-diferenciar seu jogo de outras ferramentas educacionais.
-- Adaptabilidade: você pode permitir atualizações ou expansões no seu jogo que incorporem novos
-dados ou cenários de agricultura adicionais ao longo do tempo.
-
-**armadilhas a evitar**
-
-- Complexidade excessiva: tome cuidado para não sobrecarregar os jogadores com muitos detalhes
-técnicos,o que pode prejudicar a diversão e o envolvimento.
-- Sobrecarga de dados: pense nos dados apresentados no seu jogo; considere focar no que é mais
-relevante e impactante para os objetivos educacionais.
-- Simulação de nível superficial: você pode tentar evitar simulações genéricas que não se vinculam a
-sistemas mais amplos, como saúde das culturas ou tempo de decisão.
-- Assumindo uma solução única para todos: considere diferentes contextos agrícolas (por exemplo,
-agricultura industrial vs. agricultura de pequena escala/pequenos produtores) e diferentes resoluções
-de conjuntos de dados (por exemplo, conjuntos de dados com resolução de 30 m vs. 375 m).
+![NASA Farm Navigator](https://img.shields.io/badge/NASA-Space%20Apps%202025-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![Node.js](https://img.shields.io/badge/Node.js-20-green)
 
 ---
+
+## Sobre o Jogo
+
+NASA Farm Navigator é um RPG de texto procedural onde:
+
+- **IA como Mestre**: Narrativas únicas geradas por GPT-4
+- **Dados NASA Reais**: Cenários baseados em umidade do solo, clima e imagens de satélite
+- **Decisões Estratégicas**: Balance produção e sustentabilidade
+- **Aprendizado Contextual**: Cada escolha ensina sobre agricultura sustentável
+
+### Como Jogar
+
+1. Escolha a localização da sua fazenda no mapa
+2. A IA gera cenários baseados em dados NASA reais da região
+3. Tome decisões que impactam **Produção** e **Sustentabilidade**
+4. Mantenha ambas métricas acima de 20 para continuar
+5. Alcance 80+ em ambas para vencer em 20 turnos
+
+---
+
+## Arquitetura
+
+### Stack Tecnológica
+
+**Frontend**
+- Next.js 14 (App Router)
+- TypeScript
+- TailwindCSS
+- Chart.js
+- Axios
+
+**Backend**
+- Node.js 20
+- Express
+- TypeScript
+- OpenAI GPT-4
+- Node-Cache
+
+**Dados NASA**
+- GIBS (Global Imagery Browse Services)
+- Crop-CASMA (simulado)
+- GLAM (simulado)
+- MODIS NDVI (simulado)
+
+## 🚀 Instalação e Execução
+
+### Pré-requisitos
+
+- Node.js 20+
+- npm ou yarn
+- Chave API OpenAI (para narrativas com IA)
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/carvalhocaio/space-apps-challenge.git
+cd space-apps-challenge
+```
+
+### 2. Configure o Backend
+
+```bash
+cd backend
+npm install
+
+# Copie o arquivo de exemplo e configure
+cp ../.env.example .env
+
+# Edite .env e adicione sua OPENAI_API_KEY
+# OPENAI_API_KEY=sk-...
+```
+
+### 3. Configure o Frontend
+
+```bash
+cd ../frontend
+npm install
+
+# Copie o arquivo de exemplo
+cp .env.local.example .env.local
+```
+
+### 4. Execute o Projeto
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm run dev
+# Servidor rodando em http://localhost:3001
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+# App rodando em http://localhost:3000
+```
+
+### 5. Acesse o Jogo
+
+Abra seu navegador em: **http://localhost:3000**
+
+---
+
+## Valor Educacional
+
+### O que os Jogadores Aprendem
+
+1. **Dados de Satélite**
+   - Como interpretar NDVI (índice de vegetação)
+   - Uso de imagens de satélite na agricultura
+
+2. **Gestão Sustentável**
+   - Trade-offs entre produção e meio ambiente
+   - Importância da conservação do solo
+   - Técnicas de irrigação eficientes
+
+3. **Tomada de Decisão**
+   - Análise de dados para decisões agrícolas
+   - Impacto de longo prazo vs curto prazo
+   - Gestão de recursos limitados
+
+4. **Tecnologia na Agricultura**
+   - Aplicações práticas de dados NASA
+   - Agricultura de precisão
+   - Monitoramento climático
+
+---
+
+## API Endpoints
+
+### NASA Endpoints
+
+#### `GET /api/nasa/all-data?lat=-23.55&lon=-46.63`
+Retorna todos os dados NASA para uma localização
+
+#### `GET /api/nasa/satellite-image?lat=-23.55&lon=-46.63`
+Retorna URL de imagem de satélite
+
+---
+
+## 🏆 NASA Space Apps Challenge 2025
+
+Este projeto foi desenvolvido para o [NASA Space Apps Challenge 2025](https://www.spaceappschallenge.org/2025/challenges/nasa-farm-navigators-using-nasa-data-exploration-in-agriculture/).
+
+**Desafio**: Navegadores Agrícolas da NASA - Usando a Exploração de Dados da NASA na Agricultura
