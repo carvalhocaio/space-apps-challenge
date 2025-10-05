@@ -118,4 +118,10 @@ export const GAME_CONSTANTS = {
     seeds: 100,
     money: 1000,
   },
+  RESOURCE_PRICES: {
+    water: 10,
+    fertilizer: 15,
+    seeds: 20,
+  },
+  MAX_RESOURCE_VALUE: 100,
 } as const;

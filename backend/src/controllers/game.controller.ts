@@ -77,4 +77,37 @@ router.post('/stats', async (req: Request, res: Response) => {
   }
 });
 
+// Comprar recursos
+router.post('/purchase', async (req: Request, res: Response) => {
+  try {
+    const { gameState, resourceType, quantity } = req.body;
+
+    if (!gameState || !resourceType || quantity === undefined) {
+      return res.status(400).json({
+        error: 'Game state, resource type, and quantity are required'
+      });
+    }
+
+    if (!['water', 'fertilizer', 'seeds'].includes(resourceType)) {
+      return res.status(400).json({
+        error: 'Invalid resource type. Must be water, fertilizer, or seeds'
+      });
+    }
+
+    const updatedState = gameService.purchaseResources(gameState, resourceType, quantity);
+
+    res.json({
+      success: true,
+      gameState: updatedState,
+      message: `Comprado: ${quantity} unidades de ${resourceType}`,
+    });
+  } catch (error: any) {
+    console.error('Error purchasing resources:', error);
+    res.status(400).json({
+      success: false,
+      error: error.message || 'Failed to purchase resources'
+    });
+  }
+});
+
 export default router;

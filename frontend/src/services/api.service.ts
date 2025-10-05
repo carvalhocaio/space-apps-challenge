@@ -34,6 +34,22 @@ export const gameApi = {
     const response = await api.post('/api/game/stats', { gameState });
     return response.data;
   },
+
+  /**
+   * Comprar recursos
+   */
+  async purchaseResources(
+    gameState: GameState,
+    resourceType: 'water' | 'fertilizer' | 'seeds',
+    quantity: number
+  ): Promise<GameResponse> {
+    const response = await api.post('/api/game/purchase', {
+      gameState,
+      resourceType,
+      quantity,
+    });
+    return response.data;
+  },
 };
 
 export const nasaApi = {

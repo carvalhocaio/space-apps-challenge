@@ -289,6 +289,51 @@ export class GameService {
   }
 
   /**
+   * Comprar recursos usando dinheiro
+   */
+  purchaseResources(
+    gameState: GameState,
+    resourceType: 'water' | 'fertilizer' | 'seeds',
+    quantity: number
+  ): GameState {
+    if (quantity <= 0) {
+      throw new Error('Quantidade deve ser maior que zero');
+    }
+
+    const price = GAME_CONSTANTS.RESOURCE_PRICES[resourceType];
+    const totalCost = price * quantity;
+
+    // Verificar se tem dinheiro suficiente
+    if (gameState.resources.money < totalCost) {
+      throw new Error(
+        `Dinheiro insuficiente. Custo: R$ ${totalCost}, Disponível: R$ ${gameState.resources.money}`
+      );
+    }
+
+    // Verificar se não excede o limite máximo
+    const currentAmount = gameState.resources[resourceType];
+    const newAmount = currentAmount + quantity;
+
+    if (newAmount > GAME_CONSTANTS.MAX_RESOURCE_VALUE) {
+      const maxCanBuy = GAME_CONSTANTS.MAX_RESOURCE_VALUE - currentAmount;
+      throw new Error(
+        `Limite máximo atingido. Você pode comprar no máximo ${maxCanBuy} unidades de ${resourceType}`
+      );
+    }
+
+    // Clonar estado e aplicar compra
+    const updatedState = { ...gameState };
+    updatedState.resources = {
+      ...updatedState.resources,
+      [resourceType]: newAmount,
+      money: updatedState.resources.money - totalCost,
+    };
+    updatedState.updatedAt = new Date();
+
+    return updatedState;
+  }
+
+  /**
    * Obter estatísticas do jogo
    */
   getGameStats(gameState: GameState) {

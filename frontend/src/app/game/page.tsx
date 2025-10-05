@@ -138,6 +138,29 @@ export default function GamePage() {
     }
   }
 
+  const handlePurchase = async (
+    resourceType: 'water' | 'fertilizer' | 'seeds',
+    quantity: number
+  ) => {
+    if (!gameState) return
+
+    try {
+      const response = await gameApi.purchaseResources(gameState, resourceType, quantity)
+      setGameState(response.gameState)
+
+      // Mostrar mensagem de sucesso
+      const resourceNames = {
+        water: 'Água',
+        fertilizer: 'Fertilizante',
+        seeds: 'Sementes'
+      }
+      alert(`✅ Comprado: ${quantity} unidades de ${resourceNames[resourceType]}`)
+    } catch (error: any) {
+      console.error('Erro ao comprar recursos:', error)
+      alert(`❌ ${error.response?.data?.error || 'Erro ao comprar recursos'}`)
+    }
+  }
+
   // Location Picker Screen
   if (showLocationPicker) {
     return (
@@ -380,7 +403,10 @@ export default function GamePage() {
                   turn={gameState.turn}
                   maxTurns={gameState.maxTurns}
                 />
-                <ResourcesPanel resources={gameState.resources} />
+                <ResourcesPanel
+                  resources={gameState.resources}
+                  onPurchase={handlePurchase}
+                />
               </>
             )}
           </div>
