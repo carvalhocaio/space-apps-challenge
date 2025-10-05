@@ -10,10 +10,10 @@ import ChoiceButtons from '@/components/ChoiceButtons'
 import RandomEventNotification from '@/components/RandomEventNotification'
 import { MapPin, Home, Trophy, XCircle } from 'lucide-react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import Timer from '@/components/Timer'
 
-const MapContainerComponent = dynamic(() => import("@/components/maps"), { ssr: false });
+// const MapContainerComponent = dynamic(() => import("@/components/maps"), { ssr: false });
 
 export default function GamePage() {
   const [gameState, setGameState] = useState<GameState | null>(null)
@@ -437,9 +437,9 @@ export default function GamePage() {
                   farmName={gameState.farmName}
                 />
               )}
-              {gameState && (
+              {/* {gameState && (
                 <MapContainerComponent lat={gameState.farmLocation.lat} lon={gameState.farmLocation.lon} />
-              )}
+              )} */}
             </div>
 
             {/* Right - Choices */}
