@@ -3,6 +3,19 @@ export interface Coordinates {
   lon: number;
 }
 
+export interface LocationProfile {
+  name: string;
+  coordinates: Coordinates;
+  soilType: string;        // Tipo de solo (ex: Latossolo, Argiloso, Arenoso)
+  climate: string;          // Clima (ex: Tropical, Temperado, Árido)
+  vegetation: string;       // Vegetação nativa
+  biome: string;           // Bioma (ex: Cerrado, Pampa, Deserto)
+  avgTemperature: number;  // Temperatura média anual (°C)
+  avgPrecipitation: number; // Precipitação média anual (mm)
+  waterAvailability: 'low' | 'medium' | 'high'; // Disponibilidade hídrica
+  challenges: string[];    // Desafios específicos da região
+}
+
 export interface GameMetrics {
   production: number;      // 0-100
   sustainability: number;  // 0-100

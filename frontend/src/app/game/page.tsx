@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { GameState, GameScenario, Coordinates } from '../../../../shared/types/game-state'
+import { GameState, GameScenario, Coordinates, LocationProfile } from '../../../../shared/types/game-state'
 import { gameApi } from '@/services/api.service'
 import MetricsDashboard from '@/components/MetricsDashboard'
 import ResourcesPanel from '@/components/ResourcesPanel'
@@ -19,15 +19,70 @@ export default function GamePage() {
   const [loading, setLoading] = useState(false)
   const [showLocationPicker, setShowLocationPicker] = useState(true)
   const [farmName, setFarmName] = useState('')
-  const [selectedLocation, setSelectedLocation] = useState<Coordinates | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<LocationProfile | null>(null)
 
-  // Predefined locations para facilitar
-  const locations = [
-    { name: 'São Paulo, Brasil', lat: -23.5505, lon: -46.6333 },
-    { name: 'Iowa, EUA', lat: 41.8780, lon: -93.0977 },
-    { name: 'Punjab, Índia', lat: 31.1471, lon: 75.3412 },
-    { name: 'Pampas, Argentina', lat: -34.6037, lon: -58.3816 },
-    { name: 'Vale do Nilo, Egito', lat: 26.8206, lon: 30.8025 },
+  // Predefined locations com perfis completos
+  const locations: LocationProfile[] = [
+    {
+      name: 'São Paulo, Brasil',
+      coordinates: { lat: -23.5505, lon: -46.6333 },
+      soilType: 'Latossolo Vermelho',
+      climate: 'Subtropical Úmido',
+      vegetation: 'Mata Atlântica (remanescente)',
+      biome: 'Mata Atlântica',
+      avgTemperature: 19,
+      avgPrecipitation: 1400,
+      waterAvailability: 'medium',
+      challenges: ['Chuvas irregulares', 'Solo ácido', 'Degradação urbana']
+    },
+    {
+      name: 'Iowa, EUA',
+      coordinates: { lat: 41.8780, lon: -93.0977 },
+      soilType: 'Mollisolo (Terra Preta)',
+      climate: 'Continental Úmido',
+      vegetation: 'Pradaria',
+      biome: 'Pradaria Temperada',
+      avgTemperature: 9,
+      avgPrecipitation: 850,
+      waterAvailability: 'high',
+      challenges: ['Invernos rigorosos', 'Erosão do solo', 'Monocultura intensiva']
+    },
+    {
+      name: 'Punjab, Índia',
+      coordinates: { lat: 31.1471, lon: 75.3412 },
+      soilType: 'Aluvial',
+      climate: 'Subtropical de Monções',
+      vegetation: 'Estepe e pastagens',
+      biome: 'Indo-Gangético',
+      avgTemperature: 24,
+      avgPrecipitation: 700,
+      waterAvailability: 'medium',
+      challenges: ['Escassez de água subterrânea', 'Salinização do solo', 'Calor extremo']
+    },
+    {
+      name: 'Pampas, Argentina',
+      coordinates: { lat: -34.6037, lon: -58.3816 },
+      soilType: 'Brunizem',
+      climate: 'Temperado Pampeano',
+      vegetation: 'Gramíneas nativas',
+      biome: 'Pampa',
+      avgTemperature: 18,
+      avgPrecipitation: 1000,
+      waterAvailability: 'high',
+      challenges: ['Variabilidade climática', 'Vento forte', 'Compactação do solo']
+    },
+    {
+      name: 'Vale do Nilo, Egito',
+      coordinates: { lat: 26.8206, lon: 30.8025 },
+      soilType: 'Aluvial Fértil',
+      climate: 'Desértico Quente',
+      vegetation: 'Vegetação de oásis',
+      biome: 'Deserto do Saara',
+      avgTemperature: 28,
+      avgPrecipitation: 20,
+      waterAvailability: 'low',
+      challenges: ['Extrema escassez de chuva', 'Dependência do Rio Nilo', 'Desertificação']
+    }
   ]
 
   const startGame = async () => {
@@ -38,7 +93,7 @@ export default function GamePage() {
 
     setLoading(true)
     try {
-      const response = await gameApi.startGame(selectedLocation, farmName)
+      const response = await gameApi.startGame(selectedLocation.coordinates, farmName)
       setGameState(response.gameState)
       setScenario(response.scenario || null)
       setShowLocationPicker(false)
@@ -100,23 +155,78 @@ export default function GamePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Localização
                 </label>
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid md:grid-cols-1 gap-4">
                   {locations.map((loc) => (
                     <button
                       key={loc.name}
-                      onClick={() => setSelectedLocation({ lat: loc.lat, lon: loc.lon })}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        selectedLocation?.lat === loc.lat && selectedLocation?.lon === loc.lon
+                      onClick={() => setSelectedLocation(loc)}
+                      className={`p-5 rounded-lg border-2 transition-all text-left ${
+                        selectedLocation?.name === loc.name
                           ? 'border-green-500 bg-green-50'
                           : 'border-gray-200 hover:border-green-400'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-green-600" />
-                        <div className="text-left">
-                          <div className="font-semibold text-gray-900">{loc.name}</div>
-                          <div className="text-sm text-gray-700 font-medium">
-                            {loc.lat.toFixed(2)}, {loc.lon.toFixed(2)}
+                      <div className="space-y-3">
+                        {/* Header */}
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-5 h-5 text-green-600 flex-shrink-0" />
+                            <div>
+                              <div className="font-bold text-gray-900">{loc.name}</div>
+                              <div className="text-xs text-gray-500">
+                                {loc.coordinates.lat.toFixed(2)}, {loc.coordinates.lon.toFixed(2)}
+                              </div>
+                            </div>
+                          </div>
+                          <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700">
+                            {loc.biome}
+                          </span>
+                        </div>
+
+                        {/* Properties Grid */}
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                          <div>
+                            <span className="text-gray-500">Solo:</span>
+                            <span className="ml-2 text-gray-900 font-medium">{loc.soilType}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Clima:</span>
+                            <span className="ml-2 text-gray-900 font-medium">{loc.climate}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Temp. Média:</span>
+                            <span className="ml-2 text-gray-900 font-medium">{loc.avgTemperature}°C</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Chuva Anual:</span>
+                            <span className="ml-2 text-gray-900 font-medium">{loc.avgPrecipitation}mm</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Vegetação:</span>
+                            <span className="ml-2 text-gray-900 font-medium">{loc.vegetation}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Água:</span>
+                            <span className={`ml-2 font-semibold ${
+                              loc.waterAvailability === 'high' ? 'text-blue-600' :
+                              loc.waterAvailability === 'medium' ? 'text-yellow-600' :
+                              'text-red-600'
+                            }`}>
+                              {loc.waterAvailability === 'high' ? 'Alta' :
+                               loc.waterAvailability === 'medium' ? 'Média' : 'Baixa'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Challenges */}
+                        <div>
+                          <div className="text-xs text-gray-500 mb-1">Desafios:</div>
+                          <div className="flex flex-wrap gap-1">
+                            {loc.challenges.map((challenge, idx) => (
+                              <span key={idx} className="px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded">
+                                {challenge}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       </div>
