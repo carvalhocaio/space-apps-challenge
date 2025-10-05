@@ -70,6 +70,33 @@ export class GameService {
   }
 
   /**
+   * Verificar se o jogador tem recursos suficientes para uma opção
+   */
+  private hasEnoughResources(resources: any, cost?: Partial<any>): { hasEnough: boolean; missing: string[] } {
+    if (!cost) return { hasEnough: true, missing: [] };
+
+    const missing: string[] = [];
+
+    if (cost.water && resources.water < cost.water) {
+      missing.push(`Água (faltam ${cost.water - resources.water})`);
+    }
+    if (cost.fertilizer && resources.fertilizer < cost.fertilizer) {
+      missing.push(`Fertilizante (faltam ${cost.fertilizer - resources.fertilizer})`);
+    }
+    if (cost.seeds && resources.seeds < cost.seeds) {
+      missing.push(`Sementes (faltam ${cost.seeds - resources.seeds})`);
+    }
+    if (cost.money && resources.money < cost.money) {
+      missing.push(`Dinheiro (faltam R$ ${cost.money - resources.money})`);
+    }
+
+    return {
+      hasEnough: missing.length === 0,
+      missing,
+    };
+  }
+
+  /**
    * Processar escolha do jogador
    */
   async processChoice(gameState: GameState, optionId: string, selectedOption?: any): Promise<GameState> {
@@ -87,6 +114,16 @@ export class GameService {
       if (!selectedOption) {
         throw new Error(`Invalid option ID: ${optionId}`);
       }
+    }
+
+    // Validar recursos antes de processar
+    const { hasEnough, missing } = this.hasEnoughResources(
+      gameState.resources,
+      selectedOption.resourceCost
+    );
+
+    if (!hasEnough) {
+      throw new Error(`Recursos insuficientes: ${missing.join(', ')}`);
     }
 
     // Clonar estado

@@ -409,6 +409,7 @@ export default function GamePage() {
                     options={scenario.options}
                     onChoice={makeChoice}
                     disabled={loading}
+                    currentResources={gameState.resources}
                   />
                 </div>
               )}
