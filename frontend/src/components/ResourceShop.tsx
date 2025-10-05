@@ -71,7 +71,16 @@ export default function ResourceShop({ currentResources, onPurchase, onClose }: 
     const maxCanBuy = MAX_RESOURCE - currentAmount
     setQuantities((prev) => ({
       ...prev,
-      [resourceKey]: Math.min(amount, maxCanBuy),
+      [resourceKey]: Math.min(prev[resourceKey] + amount, maxCanBuy),
+    }))
+  }
+
+  const setMaxQuantity = (resourceKey: keyof typeof quantities) => {
+    const currentAmount = currentResources[resourceKey]
+    const maxCanBuy = MAX_RESOURCE - currentAmount
+    setQuantities((prev) => ({
+      ...prev,
+      [resourceKey]: maxCanBuy,
     }))
   }
 
@@ -180,7 +189,7 @@ export default function ResourceShop({ currentResources, onPurchase, onClose }: 
                         +10
                       </button>
                       <button
-                        onClick={() => setQuickQuantity(key, maxCanBuy)}
+                        onClick={() => setMaxQuantity(key)}
                         className="flex-1 py-1 px-2 text-sm text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-50 font-medium"
                       >
                         Máx
