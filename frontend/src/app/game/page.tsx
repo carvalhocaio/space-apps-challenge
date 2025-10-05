@@ -9,6 +9,9 @@ import StoryDisplay from '@/components/StoryDisplay'
 import ChoiceButtons from '@/components/ChoiceButtons'
 import { MapPin, Home, Trophy, XCircle } from 'lucide-react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+const MapContainerComponent = dynamic(() => import("@/components/maps"), { ssr: false });
 
 export default function GamePage() {
   const [gameState, setGameState] = useState<GameState | null>(null)
@@ -245,6 +248,9 @@ export default function GamePage() {
                   farmLocation={gameState.farmLocation}
                   farmName={gameState.farmName}
                 />
+              )}
+              {gameState && (
+                <MapContainerComponent lat={gameState.farmLocation.lat} lon={gameState.farmLocation.lon} />
               )}
             </div>
 
