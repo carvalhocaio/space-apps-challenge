@@ -1,9 +1,11 @@
 import { Info, MapPin, X } from 'lucide-react'
+import { useState } from 'react'
 import MapContainerComponent from "."
 
-type LayerType = 'trueColor' | 'ndvi' | 'temperature'
+type LayerType = 'trueColor' | 'ndvi' | 'temperature' | 'none'
 
 const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, farmName }: { isExpanded: boolean, setIsExpanded: Function, nasaData: any, farmLocation: { lat: number, lon: number }, farmName: string }) => {
+    const [activeLayer, setActiveLayer] = useState<LayerType>('trueColor')
 
     // const soilMoistureLevel = nasaData.soilMoisture >= 60 ? 'Adequada' : nasaData.soilMoisture >= 40 ? 'Moderada' : 'Baixa'
     const soilMoistureColor = nasaData.soilMoisture >= 60 ? 'text-blue-600' : nasaData.soilMoisture >= 40 ? 'text-yellow-600' : 'text-red-600'
@@ -14,18 +16,23 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
     const layerInfo: Record<LayerType, { name: string; desc: string; icon: string }> = {
         trueColor: {
             name: 'Visão Natural',
-            desc: 'Cores verdadeiras como vistas do espaço',
+            desc: 'Imagem de satélite em cores verdadeiras obtida via NASA GIBS usando o sensor VIIRS. Mostra a Terra como seria vista do espaço.',
             icon: '🌍'
         },
         ndvi: {
             name: 'Vegetação (NDVI)',
-            desc: 'Verde = vegetação saudável, Vermelho = solo exposto',
+            desc: 'Índice de Vegetação por Diferença Normalizada (NDVI) do MODIS Terra. Verde intenso indica vegetação saudável e densa, enquanto vermelho indica solo exposto ou vegetação esparsa.',
             icon: '🌱'
         },
         temperature: {
             name: 'Temperatura',
-            desc: 'Vermelho = quente, Azul = frio',
+            desc: 'Temperatura da superfície terrestre medida pelo MODIS Terra. Cores quentes (vermelho/laranja) indicam áreas mais quentes, enquanto cores frias (azul) indicam áreas mais frias.',
             icon: '🌡️'
+        },
+        none: {
+            name: '',
+            desc: '',
+            icon: ''
         }
     }
 
@@ -60,43 +67,26 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
                         {/* Satellite Image */}
                         <div className="lg:col-span-2 space-y-4">
                             {/* <div className="relative rounded-lg overflow-hidden border border-gray-200 bg-gray-900 min-h-[500px]"> */}
-                            <MapContainerComponent lat={farmLocation.lat} lon={farmLocation.lon} style={{ width: '100%', height: '50vh' }} />
+                            <MapContainerComponent
+                                lat={farmLocation.lat}
+                                lon={farmLocation.lon}
+                                style={{ width: '100%', height: '50vh' }}
+                                onLayerChange={(layer) => setActiveLayer(layer as LayerType)}
+                            />
                             {/* </div> */}
 
                             {/* Image Info */}
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                <div className="flex items-start gap-2">
-                                    <Info className="w-4 h-4 text-blue-600 mt-0.5" />
-                                    <div className="text-sm text-blue-800">
-                                        <p className="font-semibold mb-1">Sobre a Camada {layerInfo['trueColor'].name}</p>
-                                        <p>
-                                            {'Imagem de satélite em cores verdadeiras obtida via NASA GIBS usando o sensor VIIRS. Mostra a Terra como seria vista do espaço.'}
-                                        </p>
+                            {activeLayer !== 'none' && (
+                                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                    <div className="flex items-start gap-2">
+                                        <Info className="w-4 h-4 text-blue-600 mt-0.5" />
+                                        <div className="text-sm text-blue-800">
+                                            <p className="font-semibold mb-1">Sobre a Camada {layerInfo[activeLayer].name}</p>
+                                            <p>{layerInfo[activeLayer].desc}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                <div className="flex items-start gap-2">
-                                    <Info className="w-4 h-4 text-blue-600 mt-0.5" />
-                                    <div className="text-sm text-blue-800">
-                                        <p className="font-semibold mb-1">Sobre a Camada {layerInfo['ndvi'].name}</p>
-                                        <p>
-                                            {'Índice de Vegetação por Diferença Normalizada (NDVI) do MODIS Terra. Verde intenso indica vegetação saudável e densa, enquanto vermelho indica solo exposto ou vegetação esparsa.'}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                <div className="flex items-start gap-2">
-                                    <Info className="w-4 h-4 text-blue-600 mt-0.5" />
-                                    <div className="text-sm text-blue-800">
-                                        <p className="font-semibold mb-1">Sobre a Camada {layerInfo['temperature'].name}</p>
-                                        <p>
-                                            {'Temperatura da superfície terrestre medida pelo MODIS Terra. Cores quentes (vermelho/laranja) indicam áreas mais quentes, enquanto cores frias (azul) indicam áreas mais frias.'}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            )}
                         </div>
 
                         {/* Data Panel */}

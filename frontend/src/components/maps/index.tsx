@@ -32,7 +32,29 @@ function LocationSelector({ onSelect }: { onSelect: (lat: number, lon: number) =
     return null;
 }
 
-export default function MapContainerComponent({ lat, lon, style = { height: "100vh", width: "100%" } }: { lat: number, lon: number, style?: React.CSSProperties }) {
+function LayerChangeDetector({ onLayerChange }: { onLayerChange?: (layer: string) => void }) {
+    useMapEvents({
+        baselayerchange(e) {
+            if (onLayerChange) {
+                const layerName = e.name;
+                let layerType = 'trueColor';
+
+                if (layerName.includes('Google Maps')) {
+                    layerType = 'none';
+                } else if (layerName.includes('Vegetação') || layerName.includes('NDVI')) {
+                    layerType = 'ndvi';
+                } else if (layerName.includes('Temperatura')) {
+                    layerType = 'temperature';
+                }
+
+                onLayerChange(layerType);
+            }
+        }
+    });
+    return null;
+}
+
+export default function MapContainerComponent({ lat, lon, style = { height: "100vh", width: "100%" }, onLayerChange }: { lat: number, lon: number, style?: React.CSSProperties, onLayerChange?: (layer: string) => void }) {
     const [position, setPosition] = useState<[number, number]>([lat, lon]);
 
     const handleSelectLocation = (lat: number, lon: number) => {
@@ -143,6 +165,7 @@ export default function MapContainerComponent({ lat, lon, style = { height: "100
                 </BaseLayer>
             </LayersControl>
             <LocationSelector onSelect={handleSelectLocation} />
+            <LayerChangeDetector onLayerChange={onLayerChange} />
 
             <Marker position={position} icon={customIcon}>
                 <Popup>
