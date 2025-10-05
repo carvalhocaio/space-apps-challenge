@@ -10,6 +10,7 @@ import ChoiceButtons from '@/components/ChoiceButtons'
 import { MapPin, Home, Trophy, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import Timer from '@/components/Timer'
 
 const MapContainerComponent = dynamic(() => import("@/components/maps"), { ssr: false });
 
@@ -20,6 +21,8 @@ export default function GamePage() {
   const [showLocationPicker, setShowLocationPicker] = useState(true)
   const [farmName, setFarmName] = useState('')
   const [selectedLocation, setSelectedLocation] = useState<LocationProfile | null>(null)
+  const [startTime, setStartTime] = useState<number>(0)
+  const [finalTime, setFinalTime] = useState<number>(0)
 
   // Predefined locations com perfis completos
   const locations: LocationProfile[] = [
@@ -97,6 +100,7 @@ export default function GamePage() {
       setGameState(response.gameState)
       setScenario(response.scenario || null)
       setShowLocationPicker(false)
+      setStartTime(Date.now()) // Inicia o temporizador
     } catch (error) {
       console.error('Erro ao iniciar jogo:', error)
       alert('Erro ao iniciar o jogo. Verifique se o servidor está rodando.')
@@ -106,15 +110,25 @@ export default function GamePage() {
   }
 
   const makeChoice = async (optionId: string) => {
-    if (!gameState) return
+    if (!gameState || !scenario) return
+
+    // Buscar a opção selecionada no cenário atual
+    const selectedOption = scenario.options.find(opt => opt.id === optionId)
+    if (!selectedOption) {
+      console.error('Opção não encontrada:', optionId)
+      return
+    }
 
     setLoading(true)
     try {
-      const response = await gameApi.makeChoice(gameState, optionId)
+      const response = await gameApi.makeChoice(gameState, optionId, selectedOption)
       setGameState(response.gameState)
 
       if (!response.gameState.isGameOver) {
         setScenario(response.scenario || null)
+      } else {
+        // Salva o tempo final quando o jogo termina
+        setFinalTime(Math.floor((Date.now() - startTime) / 1000))
       }
     } catch (error) {
       console.error('Erro ao processar escolha:', error)
@@ -250,6 +264,21 @@ export default function GamePage() {
     )
   }
 
+  // Helper function to format time
+  const formatFinalTime = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600)
+    const minutes = Math.floor((seconds % 3600) / 60)
+    const secs = seconds % 60
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${secs}s`
+    }
+    if (minutes > 0) {
+      return `${minutes}m ${secs}s`
+    }
+    return `${secs}s`
+  }
+
   // Game Over Screen
   if (gameState?.isGameOver) {
     return (
@@ -274,7 +303,7 @@ export default function GamePage() {
               </>
             )}
 
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-3 gap-4 mb-8">
               <div className="bg-blue-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-600">Produção Final</div>
                 <div className="text-3xl font-bold text-blue-600">{gameState.metrics.production}</div>
@@ -282,6 +311,10 @@ export default function GamePage() {
               <div className="bg-green-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-600">Sustentabilidade Final</div>
                 <div className="text-3xl font-bold text-green-600">{gameState.metrics.sustainability}</div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600">Tempo Total</div>
+                <div className="text-3xl font-bold text-purple-600">{formatFinalTime(finalTime)}</div>
               </div>
             </div>
 
@@ -331,6 +364,9 @@ export default function GamePage() {
             <Home className="w-4 h-4" />
             Sair
           </Link>
+          {startTime > 0 && (
+            <Timer startTime={startTime} isGameOver={gameState?.isGameOver || false} />
+          )}
           <h1 className="text-2xl font-bold text-gray-900">{gameState?.farmName}</h1>
         </div>
 

@@ -72,12 +72,21 @@ export class GameService {
   /**
    * Processar escolha do jogador
    */
-  async processChoice(gameState: GameState, optionId: string): Promise<GameState> {
-    const scenario = await this.generateScenario(gameState);
-    const selectedOption = scenario.options.find((opt) => opt.id === optionId);
+  async processChoice(gameState: GameState, optionId: string, selectedOption?: any): Promise<GameState> {
+    // Obter dados da NASA para o histórico
+    const nasaData = await this.nasaService.getAllNASAData(
+      gameState.farmLocation.lat,
+      gameState.farmLocation.lon
+    );
 
+    // Se a opção não foi fornecida, buscar no cenário (fallback para compatibilidade)
     if (!selectedOption) {
-      throw new Error(`Invalid option ID: ${optionId}`);
+      const scenario = await this.generateScenario(gameState);
+      selectedOption = scenario.options.find((opt) => opt.id === optionId);
+
+      if (!selectedOption) {
+        throw new Error(`Invalid option ID: ${optionId}`);
+      }
     }
 
     // Clonar estado
@@ -125,7 +134,7 @@ export class GameService {
       optionId,
       description: selectedOption.description,
       impacts: selectedOption.impacts,
-      nasaData: scenario.nasaData,
+      nasaData: nasaData,
       timestamp: new Date(),
     };
     updatedState.history.push(decision);

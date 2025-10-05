@@ -31,13 +31,13 @@ router.post('/start', async (req: Request, res: Response) => {
 // Fazer uma escolha
 router.post('/choice', async (req: Request, res: Response) => {
   try {
-    const { gameState, optionId } = req.body;
+    const { gameState, optionId, selectedOption } = req.body;
 
     if (!gameState || !optionId) {
       return res.status(400).json({ error: 'Game state and option ID are required' });
     }
 
-    const updatedState = await gameService.processChoice(gameState, optionId);
+    const updatedState = await gameService.processChoice(gameState, optionId, selectedOption);
 
     if (updatedState.isGameOver) {
       return res.json({

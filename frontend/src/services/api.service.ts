@@ -22,8 +22,8 @@ export const gameApi = {
   /**
    * Fazer uma escolha
    */
-  async makeChoice(gameState: GameState, optionId: string): Promise<GameResponse> {
-    const response = await api.post('/api/game/choice', { gameState, optionId });
+  async makeChoice(gameState: GameState, optionId: string, selectedOption?: any): Promise<GameResponse> {
+    const response = await api.post('/api/game/choice', { gameState, optionId, selectedOption });
     return response.data;
   },
 
