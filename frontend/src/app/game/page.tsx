@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { GameState, GameScenario, Coordinates, LocationProfile } from '../../../../shared/types/game-state'
+import { useState } from 'react'
+import { GameState, GameScenario, LocationProfile } from '../../../../shared/types/game-state'
 import { gameApi } from '@/services/api.service'
 import MetricsDashboard from '@/components/MetricsDashboard'
 import ResourcesPanel from '@/components/ResourcesPanel'
@@ -135,7 +135,16 @@ export default function GamePage() {
           </Link>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Configurar Fazenda</h1>
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-3xl font-bold text-gray-900">Configurar Fazenda</h1>
+              <button
+                onClick={startGame}
+                disabled={loading || !selectedLocation || !farmName.trim()}
+                className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+              >
+                {loading ? 'Iniciando...' : 'Começar Jogo'}
+              </button>
+            </div>
 
             <div className="space-y-6">
               <div>
@@ -234,14 +243,6 @@ export default function GamePage() {
                   ))}
                 </div>
               </div>
-
-              <button
-                onClick={startGame}
-                disabled={loading || !selectedLocation || !farmName.trim()}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-lg transition-colors"
-              >
-                {loading ? 'Iniciando...' : 'Começar Jogo'}
-              </button>
             </div>
           </div>
         </div>
