@@ -55,6 +55,19 @@ export interface Achievement {
   unlockedAt: Date;
 }
 
+export interface RandomEvent {
+  id: string;
+  name: string;
+  description: string;
+  impacts: {
+    production: number;
+    sustainability: number;
+  };
+  type: 'climate' | 'plague' | 'market' | 'natural';
+  turn: number;
+  timestamp: Date;
+}
+
 export interface GameState {
   id: string;
   turn: number;
@@ -65,6 +78,8 @@ export interface GameState {
   history: Decision[];
   resources: Resources;
   achievements: Achievement[];
+  randomEvents: RandomEvent[];
+  scheduledEventTurns: number[];
   isGameOver: boolean;
   isVictory: boolean;
   createdAt: Date;
@@ -101,6 +116,7 @@ export interface GameResponse {
   success: boolean;
   gameState: GameState;
   scenario?: GameScenario;
+  randomEvent?: RandomEvent;
   message?: string;
 }
 

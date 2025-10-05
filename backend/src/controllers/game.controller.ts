@@ -39,10 +39,14 @@ router.post('/choice', async (req: Request, res: Response) => {
 
     const updatedState = await gameService.processChoice(gameState, optionId, selectedOption);
 
+    // Verificar se há evento aleatório neste turno
+    const randomEvent = gameService.checkAndApplyRandomEvent(updatedState);
+
     if (updatedState.isGameOver) {
       return res.json({
         success: true,
         gameState: updatedState,
+        randomEvent,
         message: updatedState.isVictory ? 'Parabéns! Você venceu!' : 'Game Over',
       });
     }
@@ -53,6 +57,7 @@ router.post('/choice', async (req: Request, res: Response) => {
       success: true,
       gameState: updatedState,
       scenario: nextScenario,
+      randomEvent,
     });
   } catch (error) {
     console.error('Error processing choice:', error);

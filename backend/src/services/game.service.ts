@@ -6,23 +6,32 @@ import {
   GAME_CONSTANTS,
   Decision,
   Achievement,
+  RandomEvent,
 } from '../../../shared/types/game-state';
 import { NASAService } from './nasa.service';
 import { OpenAIService } from './openai.service';
+import { RandomEventsService } from './random-events';
 
 export class GameService {
   private nasaService: NASAService;
   private openaiService: OpenAIService;
+  private randomEventsService: RandomEventsService;
 
   constructor() {
     this.nasaService = new NASAService();
     this.openaiService = new OpenAIService();
+    this.randomEventsService = new RandomEventsService();
   }
 
   /**
    * Iniciar novo jogo
    */
   async startNewGame(farmLocation: Coordinates, farmName: string): Promise<GameState> {
+    // Sortear 3 turnos aleatórios para eventos
+    const scheduledEventTurns = this.randomEventsService.scheduleRandomEvents(
+      GAME_CONSTANTS.DEFAULT_MAX_TURNS
+    );
+
     const gameState: GameState = {
       id: uuidv4(),
       turn: 1,
@@ -36,6 +45,8 @@ export class GameService {
       history: [],
       resources: { ...GAME_CONSTANTS.INITIAL_RESOURCES },
       achievements: [],
+      randomEvents: [],
+      scheduledEventTurns,
       isGameOver: false,
       isVictory: false,
       createdAt: new Date(),
@@ -188,6 +199,35 @@ export class GameService {
     this.checkGameOver(updatedState);
 
     return updatedState;
+  }
+
+  /**
+   * Verificar e aplicar evento aleatório se for o turno agendado
+   */
+  checkAndApplyRandomEvent(gameState: GameState): RandomEvent | null {
+    // Verificar se o turno atual está na lista de eventos agendados
+    if (!gameState.scheduledEventTurns.includes(gameState.turn)) {
+      return null;
+    }
+
+    // Gerar evento aleatório
+    const event = this.randomEventsService.generateEvent(gameState.turn, {
+      avgTemperature: 20, // Poderia usar dados da localização
+      avgPrecipitation: 800,
+    });
+
+    // Aplicar impactos do evento nas métricas
+    gameState.metrics = {
+      production: this.clampMetric(gameState.metrics.production + event.impacts.production),
+      sustainability: this.clampMetric(
+        gameState.metrics.sustainability + event.impacts.sustainability
+      ),
+    };
+
+    // Registrar evento no histórico
+    gameState.randomEvents.push(event);
+
+    return event;
   }
 
   /**

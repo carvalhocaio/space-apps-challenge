@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { GameState, GameScenario, LocationProfile } from '../../../../shared/types/game-state'
+import { GameState, GameScenario, LocationProfile, RandomEvent } from '../../../../shared/types/game-state'
 import { gameApi } from '@/services/api.service'
 import MetricsDashboard from '@/components/MetricsDashboard'
 import ResourcesPanel from '@/components/ResourcesPanel'
 import StoryDisplay from '@/components/StoryDisplay'
 import ChoiceButtons from '@/components/ChoiceButtons'
+import RandomEventNotification from '@/components/RandomEventNotification'
 import { MapPin, Home, Trophy, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -23,6 +24,7 @@ export default function GamePage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationProfile | null>(null)
   const [startTime, setStartTime] = useState<number>(0)
   const [finalTime, setFinalTime] = useState<number>(0)
+  const [currentEvent, setCurrentEvent] = useState<RandomEvent | null>(null)
 
   // Predefined locations com perfis completos - coordenadas em áreas rurais/agrícolas
   const locations: LocationProfile[] = [
@@ -123,6 +125,11 @@ export default function GamePage() {
     try {
       const response = await gameApi.makeChoice(gameState, optionId, selectedOption)
       setGameState(response.gameState)
+
+      // Verificar se há evento aleatório
+      if (response.randomEvent) {
+        setCurrentEvent(response.randomEvent)
+      }
 
       if (!response.gameState.isGameOver) {
         setScenario(response.scenario || null)
@@ -381,6 +388,14 @@ export default function GamePage() {
   // Main Game Screen
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 p-4 md:p-8">
+      {/* Modal de Evento Aleatório */}
+      {currentEvent && (
+        <RandomEventNotification
+          event={currentEvent}
+          onClose={() => setCurrentEvent(null)}
+        />
+      )}
+
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/" className="inline-flex items-center gap-2 text-green-600 hover:text-green-700">
