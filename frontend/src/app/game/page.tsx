@@ -24,11 +24,11 @@ export default function GamePage() {
   const [startTime, setStartTime] = useState<number>(0)
   const [finalTime, setFinalTime] = useState<number>(0)
 
-  // Predefined locations com perfis completos
+  // Predefined locations com perfis completos - coordenadas em áreas rurais/agrícolas
   const locations: LocationProfile[] = [
     {
       name: 'São Paulo, Brasil',
-      coordinates: { lat: -23.5505, lon: -46.6333 },
+      coordinates: { lat: -22.7253, lon: -47.6492 }, // Região agrícola de Piracicaba
       soilType: 'Latossolo Vermelho',
       climate: 'Subtropical Úmido',
       vegetation: 'Mata Atlântica (remanescente)',
@@ -40,7 +40,7 @@ export default function GamePage() {
     },
     {
       name: 'Iowa, EUA',
-      coordinates: { lat: 41.8780, lon: -93.0977 },
+      coordinates: { lat: 42.0344, lon: -93.3774 }, // Story County - cinturão de milho/soja
       soilType: 'Mollisolo (Terra Preta)',
       climate: 'Continental Úmido',
       vegetation: 'Pradaria',
@@ -52,7 +52,7 @@ export default function GamePage() {
     },
     {
       name: 'Punjab, Índia',
-      coordinates: { lat: 31.1471, lon: 75.3412 },
+      coordinates: { lat: 30.9010, lon: 75.8573 }, // Região agrícola de Ludhiana
       soilType: 'Aluvial',
       climate: 'Subtropical de Monções',
       vegetation: 'Estepe e pastagens',
@@ -64,7 +64,7 @@ export default function GamePage() {
     },
     {
       name: 'Pampas, Argentina',
-      coordinates: { lat: -34.6037, lon: -58.3816 },
+      coordinates: { lat: -33.8897, lon: -60.5736 }, // Pergamino - zona de grãos
       soilType: 'Brunizem',
       climate: 'Temperado Pampeano',
       vegetation: 'Gramíneas nativas',
@@ -76,7 +76,7 @@ export default function GamePage() {
     },
     {
       name: 'Vale do Nilo, Egito',
-      coordinates: { lat: 26.8206, lon: 30.8025 },
+      coordinates: { lat: 29.3084, lon: 30.8428 }, // Região de Faiyum - agricultura irrigada
       soilType: 'Aluvial Fértil',
       climate: 'Desértico Quente',
       vegetation: 'Vegetação de oásis',
