@@ -1,8 +1,10 @@
 'use client'
 
+import { BookOpen, Maximize2, Satellite } from 'lucide-react'
+import { useState } from 'react'
 import { GameScenario } from '../../../shared/types/game-state'
-import { Satellite, BookOpen } from 'lucide-react'
-import SatelliteMapViewer from './SatelliteMapViewer'
+import MapContainerComponent from './maps'
+import ModalMapComponent from './maps/modal.map'
 
 interface StoryDisplayProps {
   scenario: GameScenario
@@ -11,6 +13,15 @@ interface StoryDisplayProps {
 }
 
 export default function StoryDisplay({ scenario, farmLocation, farmName }: StoryDisplayProps) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const soilMoistureLevel = scenario.nasaData.soilMoisture >= 60 ? 'Adequada' : scenario.nasaData.soilMoisture >= 40 ? 'Moderada' : 'Baixa'
+  const soilMoistureColor = scenario.nasaData.soilMoisture >= 60 ? 'text-blue-600' : scenario.nasaData.soilMoisture >= 40 ? 'text-yellow-600' : 'text-red-600'
+
+  const ndviLevel = scenario.nasaData.vegetationIndex >= 0.6 ? 'Alta' : scenario.nasaData.vegetationIndex >= 0.3 ? 'Média' : 'Baixa'
+  const ndviColor = scenario.nasaData.vegetationIndex >= 0.6 ? 'text-green-600' : scenario.nasaData.vegetationIndex >= 0.3 ? 'text-yellow-600' : 'text-red-600'
+
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
       {/* Narrativa Principal */}
@@ -66,7 +77,7 @@ export default function StoryDisplay({ scenario, farmLocation, farmName }: Story
       </div>
 
       {/* Imagem de Satélite com Viewer Expandido */}
-      {scenario.imageUrl && (
+      {/* {scenario.imageUrl && (
         <SatelliteMapViewer
           imageUrl={scenario.imageUrl}
           satelliteImages={scenario.satelliteImages}
@@ -74,7 +85,39 @@ export default function StoryDisplay({ scenario, farmLocation, farmName }: Story
           nasaData={scenario.nasaData}
           farmName={farmName}
         />
+      )} */}
+      <div className='flex flex-1 border-1 aling-content-center justify-content-center'>
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+          title="Expandir mapa"
+          style={{ zIndex: 99999 }}
+        >
+          <Maximize2 className="w-4 h-4 text-gray-600" />
+        </button>
+      </div>
+      {farmLocation && (
+        <MapContainerComponent lat={farmLocation.lat} lon={farmLocation.lon} style={{ width: '100%', height: '400px' }} />
       )}
+
+      <ModalMapComponent
+        farmLocation={farmLocation}
+        farmName={farmName}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+        nasaData={scenario.nasaData}
+      />
+
+      <div className="grid grid-cols-2 gap-2 mt-2">
+        <div className="bg-gray-50 rounded p-2">
+          <div className="text-xs text-gray-600">Umidade do Solo</div>
+          <div className={`text-sm font-bold ${soilMoistureColor}`}>{soilMoistureLevel}</div>
+        </div>
+        <div className="bg-gray-50 rounded p-2">
+          <div className="text-xs text-gray-600">Vegetação (NDVI)</div>
+          <div className={`text-sm font-bold ${ndviColor}`}>{ndviLevel}</div>
+        </div>
+      </div>
     </div>
   )
 }
