@@ -112,6 +112,7 @@ export default function ChoiceButtons({ options, onChoice, disabled = false }: C
                 <details
                   className="group"
                   onClick={(e) => e.stopPropagation()}
+                  open
                 >
                   <summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1 list-none">
                     <Info className="w-4 h-4" />
