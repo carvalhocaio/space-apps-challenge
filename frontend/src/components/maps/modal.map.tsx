@@ -103,7 +103,7 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
                         <div className="space-y-4">
                             {/* Soil Moisture */}
                             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
-                                <h3 className="font-bold text-blue-900 mb-3">Umidade do Solo</h3>
+                                <h3 className="font-bold text-blue-900">Umidade do Solo</h3>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-end">
                                         <span className="text-sm text-blue-700">Nível atual</span>
@@ -127,7 +127,7 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
 
                             {/* NDVI */}
                             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
-                                <h3 className="font-bold text-green-900 mb-3">Índice de Vegetação (NDVI)</h3>
+                                <h3 className="font-bold text-green-900">Índice de Vegetação (NDVI)</h3>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-end">
                                         <span className="text-sm text-green-700">Índice</span>
@@ -152,7 +152,7 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
                             {/* Climate Data */}
                             <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200">
                                 <h3 className="font-bold text-orange-900 mb-3">Dados Climáticos</h3>
-                                <div className="space-y-3">
+                                <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <div className="text-sm text-orange-700">Temperatura</div>
                                         <div className="text-xl font-bold text-orange-600">{nasaData.temperature}°C</div>
@@ -167,8 +167,8 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
                             {/* Legend */}
                             <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                                 <h3 className="font-bold text-gray-900 mb-3">Legenda do Mapa</h3>
-                                <div className="space-y-2 text-xs">
-                                    <div className="border-t border-gray-300 mt-2 gap-3">
+                                <div className="space-y-3 text-xs">
+                                    <div className="border-t border-gray-300 pt-3 space-y-2">
                                         <strong className='text-gray-700'>Vegetação/NDVI (NASA)</strong>
 
                                         <div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ const ModalMapComponent = ({ isExpanded, setIsExpanded, nasaData, farmLocation, 
                                             <span className='text-gray-700'>Solo exposto (NDVI &lt; 0.3)</span>
                                         </div>
                                     </div>
-                                    <div className="border-t border-gray-300 mt-2 gap-3">
+                                    <div className="border-t border-gray-300 pt-3 space-y-2">
                                         <strong className='text-gray-700'> Temperatura (NASA)</strong>
 
                                         <div className="flex items-center gap-2">
